@@ -2,10 +2,10 @@
 
 return [
     'resources' => [
-        'example' => [
-            'singular' => 'نمونه',
-            'plural' => 'نمونه ها',
-            'navigation' => 'نمونه ها'
+        'projects' => [
+            'singular' => 'پروژه',
+            'plural' => 'پروژه ها',
+            'navigation' => 'پروژه ها'
         ],
     ],
     'titles' => [
@@ -15,8 +15,20 @@ return [
     'navigations' => [
         'settings' => 'تنظیمات',
     ],
+    'infolists' => [
+        'project_info' => 'اطلاعات پروژه',
+        'project_stats' => 'آمار پروژه',
+    ],
     'fields' => [
-        //
+        'project_link' => 'لینک پروژه',
+        'project_jira_link' => 'لینک پروژه در جیرا',
+        'project_description' => 'توضیحات پروژه',
+        'jira' => 'جیرا',
+        'logo' => 'لوگو',
+        'total_time' => 'کل زمان کار روی پروژه',
+        'today_time' => 'مدت زمان کار امروز',
+        'week_time' => 'مدت زمان کار این هفته',
+        'month_time' => 'مدت زمان کار این ماه',
     ],
     'commons' => [
         'labels' => [
