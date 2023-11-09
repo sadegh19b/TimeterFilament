@@ -7,6 +7,11 @@ return [
             'plural' => 'پروژه ها',
             'navigation' => 'پروژه ها'
         ],
+        'times' => [
+            'singular' => 'زمان',
+            'plural' => 'زمان ها',
+            'navigation' => 'زمان ها'
+        ],
     ],
     'titles' => [
         'panel' => 'تایمتر',
@@ -24,16 +29,31 @@ return [
         'project_jira_link' => 'لینک پروژه در جیرا',
         'project_description' => 'توضیحات پروژه',
         'jira' => 'جیرا',
+        'jira_link' => 'لینک جیرا',
         'logo' => 'لوگو',
-        'total_time' => 'کل زمان کار روی پروژه',
-        'today_time' => 'مدت زمان کار امروز',
-        'week_time' => 'مدت زمان کار این هفته',
-        'month_time' => 'مدت زمان کار این ماه',
+        'time_work' => 'زمان کارکرد',
+        'total_time' => 'مجموع زمان',
+        'total_time_work' => 'کل زمان کار روی پروژه',
+        'today_time_work' => 'مدت زمان کار امروز',
+        'week_time_work' => 'مدت زمان کار این هفته',
+        'month_time_work' => 'مدت زمان کار این ماه',
+        'task' => 'تسک',
+        'task_description' => 'توضیحات تسک',
+        'jira_issue' => 'تسک در جیرا',
+        'date' => 'تاریخ',
+        'date_from' => 'از تاریخ',
+        'date_until' => 'تا تاریخ',
+        'start' => 'زمان شروع',
+        'end' => 'زمان پایان',
+        'today_entries' => 'زمان های ثبت شده امروز',
+        'week_entries' => 'زمان های ثبت شده در هفته جاری',
+        'month_entries' => 'زمان های ثبت شده در ماه جاری',
     ],
     'commons' => [
         'labels' => [
             'add' => 'افزودن',
             'save' => 'ذخیره',
+            'ok' => 'تایید',
             'cancel' => 'لغو',
             'back' => 'بازگشت',
             'active' => 'فعال',
@@ -52,6 +72,7 @@ return [
             'full_name' => 'نام و نام خانوادگی',
             'value' => 'مقدار',
             'title' => 'عنوان',
+            'slug' => 'اسلاگ',
             'status' => 'وضعیت',
             'content' => 'محتوا',
             'description' => 'توضیحات',
@@ -61,9 +82,12 @@ return [
             'info' => 'اطلاعات',
             'sort' => 'مرتب سازی',
         ],
-    ],
-    'tooltips' => [
-        'copy_link' => 'برای کپی لینک کلیک کنید',
+        'hints' => [
+            'acceptable_chars' => 'کارکترهای مجاز: [a-z A-Z 0-9 - _]',
+        ],
+        'tooltips' => [
+            'copy_link' => 'برای کپی لینک کلیک کنید',
+        ],
     ],
     'notifications' => [
         'sent' => 'ارسال شد.',

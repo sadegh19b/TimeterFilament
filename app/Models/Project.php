@@ -15,8 +15,8 @@ class Project extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
-        'total_time',
         'logo',
         'link',
         'jira_link',
@@ -30,5 +30,15 @@ class Project extends Model
     public function getImageDirectory(): ?string
     {
         return self::LOGO_DIRECTORY;
+    }
+
+    public function times(): HasMany
+    {
+        return $this->hasMany(Time::class);
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

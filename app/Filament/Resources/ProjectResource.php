@@ -6,14 +6,13 @@ use App\Filament\Concerns\TranslatableResource;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
-use App\Utils\Html;
+use App\Utils\TimeHelper;
 use Filament\Forms;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -32,6 +31,16 @@ class ProjectResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->label(__('app.commons.fields.title'))
                     ->maxLength(250)
+                    ->required(),
+
+                Forms\Components\TextInput::make('slug')
+                    ->label(__('app.commons.fields.slug'))
+                    ->hint(__('app.commons.hints.acceptable_chars'))
+                    ->extraInputAttributes(['dir' => 'ltr'])
+                    ->rule('regex:/^[a-zA-Z0-9-_]+$/')
+                    ->unique(ignoreRecord: true)
+                    ->minLength(3)
+                    ->maxLength(100)
                     ->required(),
 
                 Forms\Components\TextInput::make('link')
@@ -95,7 +104,7 @@ class ProjectResource extends Resource
                                 Infolists\Components\Actions\Action::make('jira_link')
                                     ->color('golden')
                                     ->icon('heroicon-o-link')
-                                    ->label(__('app.fields.jira'))
+                                    ->label(__('app.fields.jira_link'))
                                     ->visible(fn($record) => ! is_null($record->jira_link))
                                     ->url(fn($record) => $record->jira_link)
                                     ->openUrlInNewTab(),
@@ -115,26 +124,46 @@ class ProjectResource extends Resource
 
                     Infolists\Components\Section::make(__('app.infolists.project_stats'))
                         ->schema([
-                            Infolists\Components\TextEntry::make('total_time')
-                                ->label(__('app.fields.today_time'))
+                            Infolists\Components\TextEntry::make('created_at')
+                                ->label(__('app.fields.today_time_work'))
+                                ->formatStateUsing(
+                                    fn($record) => TimeHelper::timestampToHoursMinutes(
+                                        $record->times()->whereDate('date', today())->sum('total')
+                                    )
+                                )
                                 ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                                 ->alignEnd()
                                 ->inlineLabel(),
 
-                            Infolists\Components\TextEntry::make('total_time')
-                                ->label(__('app.fields.week_time'))
+                            Infolists\Components\TextEntry::make('created_at')
+                                ->label(__('app.fields.week_time_work'))
+                                ->formatStateUsing(
+                                    fn($record) => TimeHelper::timestampToHoursMinutes(
+                                        $record->times()
+                                            ->whereBetween('date', [verta()->startWeek()->toCarbon(), verta()->endWeek()->toCarbon()])
+                                            ->sum('total')
+                                    )
+                                )
                                 ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                                 ->alignEnd()
                                 ->inlineLabel(),
 
-                            Infolists\Components\TextEntry::make('total_time')
-                                ->label(__('app.fields.month_time'))
+                            Infolists\Components\TextEntry::make('created_at')
+                                ->label(__('app.fields.month_time_work'))
+                                ->formatStateUsing(
+                                    fn($record) => TimeHelper::timestampToHoursMinutes(
+                                        $record->times()
+                                            ->whereBetween('date', [verta()->startMonth()->toCarbon(), verta()->endMonth()->toCarbon()])
+                                            ->sum('total')
+                                    )
+                                )
                                 ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                                 ->alignEnd()
                                 ->inlineLabel(),
 
-                            Infolists\Components\TextEntry::make('total_time')
-                                ->label(__('app.fields.total_time'))
+                            Infolists\Components\TextEntry::make('created_at')
+                                ->label(__('app.fields.total_time_work'))
+                                ->formatStateUsing(fn($record) => TimeHelper::timestampToHoursMinutes($record->times()->sum('total')))
                                 ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                                 ->alignEnd()
                                 ->inlineLabel(),
@@ -155,13 +184,14 @@ class ProjectResource extends Resource
 
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('app.commons.fields.title'))
+                    ->icon(fn($record) => ! is_null($record->link) ? 'heroicon-o-link' : null)
                     ->url(fn($record) => $record->link)
                     ->openUrlInNewTab()
-                    ->sortable(),
+                    ->searchable(),
 
-                Tables\Columns\TextColumn::make('total_time')
-                    ->label(__('app.fields.total_time'))
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('app.fields.total_time_work'))
+                    ->formatStateUsing(fn($record) => TimeHelper::timestampToHoursMinutes($record->times()->sum('total'))),
             ])
             ->filters([
                 //
@@ -188,7 +218,7 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TimeRelationManager::class,
         ];
     }
 

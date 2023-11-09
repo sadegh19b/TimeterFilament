@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->string('slug', 100)->unique();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('total_time')->default('00:00');
             $table->string('logo')->nullable();
             $table->string('link')->nullable();
             $table->string('jira_link')->nullable();

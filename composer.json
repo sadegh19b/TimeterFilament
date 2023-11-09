@@ -9,10 +9,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ariaieboy/filament-jalali-datetimepicker": "^2.0",
         "filament/filament": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "hasnayeen/themes": "^3.0",
         "hekmatinasser/verta": "^8.3",
+        "husam-tariq/filament-timepicker": "^3.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8"
