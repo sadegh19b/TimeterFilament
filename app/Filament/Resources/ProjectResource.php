@@ -128,7 +128,7 @@ class ProjectResource extends Resource
                                 ->label(__('app.fields.today_time_work'))
                                 ->formatStateUsing(
                                     fn($record) => TimeHelper::timestampToHoursMinutes(
-                                        $record->times()->whereDate('date', today())->sum('total')
+                                        $record->times()->whereDate('date', today())->where('is_calculate_on_sum', true)->sum('total')
                                     )
                                 )
                                 ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
@@ -141,6 +141,7 @@ class ProjectResource extends Resource
                                     fn($record) => TimeHelper::timestampToHoursMinutes(
                                         $record->times()
                                             ->whereBetween('date', [verta()->startWeek()->toCarbon(), verta()->endWeek()->toCarbon()])
+                                            ->where('is_calculate_on_sum', true)
                                             ->sum('total')
                                     )
                                 )
@@ -154,6 +155,7 @@ class ProjectResource extends Resource
                                     fn($record) => TimeHelper::timestampToHoursMinutes(
                                         $record->times()
                                             ->whereBetween('date', [verta()->startMonth()->toCarbon(), verta()->endMonth()->toCarbon()])
+                                            ->where('is_calculate_on_sum', true)
                                             ->sum('total')
                                     )
                                 )
@@ -163,7 +165,7 @@ class ProjectResource extends Resource
 
                             Infolists\Components\TextEntry::make('created_at')
                                 ->label(__('app.fields.total_time_work'))
-                                ->formatStateUsing(fn($record) => TimeHelper::timestampToHoursMinutes($record->times()->sum('total')))
+                                ->formatStateUsing(fn($record) => TimeHelper::timestampToHoursMinutes($record->times()->where('is_calculate_on_sum', true)->sum('total')))
                                 ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                                 ->alignEnd()
                                 ->inlineLabel(),
@@ -191,7 +193,11 @@ class ProjectResource extends Resource
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('app.fields.total_time_work'))
-                    ->formatStateUsing(fn($record) => TimeHelper::timestampToHoursMinutes($record->times()->sum('total'))),
+                    ->formatStateUsing(
+                        fn($record) => TimeHelper::timestampToHoursMinutes(
+                            $record->times()->where('is_calculate_on_sum', true)->sum('total')
+                        )
+                    ),
             ])
             ->filters([
                 //

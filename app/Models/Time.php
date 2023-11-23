@@ -16,6 +16,7 @@ class Time extends Model
         'jira_issue',
         'task',
         'description',
+        'is_calculate_on_sum',
     ];
 
     protected static function booted(): void

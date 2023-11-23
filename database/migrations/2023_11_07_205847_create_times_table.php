@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('jira_issue')->nullable();
             $table->string('task')->nullable();
             $table->text('description')->nullable();
+            $table->boolean('is_calculate_on_sum')->default(true);
             $table->timestamps();
         });
     }

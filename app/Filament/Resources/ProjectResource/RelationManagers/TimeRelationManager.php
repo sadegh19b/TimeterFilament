@@ -81,6 +81,10 @@ class TimeRelationManager extends RelationManager
 
                 Forms\Components\RichEditor::make('description')
                     ->label(__('app.commons.fields.description')),
+
+                Forms\Components\Toggle::make('is_calculate_on_sum')
+                    ->label(__('app.fields.is_calculate_on_sum_toggle'))
+                    ->default(true),
             ])
             ->columns(1);
     }
@@ -124,6 +128,7 @@ class TimeRelationManager extends RelationManager
                     ->summarize(
                         Tables\Columns\Summarizers\Sum::make()
                             ->label(__('app.fields.total_time'))
+                            //->query(fn (\Illuminate\Database\Query\Builder $query) => $query->where('is_calculate_on_sum', true))
                             ->formatStateUsing(fn($state) => TimeHelper::timestampToHoursMinutes($state))
                     )
                     ->sortable(),
@@ -133,6 +138,9 @@ class TimeRelationManager extends RelationManager
                     ->visible(fn() => ! is_null($this->getOwnerRecord()->jira_link)),
 
                 SearchFilter::make('task'),
+
+                Tables\Filters\TernaryFilter::make('is_calculate_on_sum')
+                    ->label(__('app.fields.is_calculated_times_on_sum')),
 
                 Tables\Filters\Filter::make('date')
                     ->form([
@@ -200,7 +208,7 @@ class TimeRelationManager extends RelationManager
                             );
                     }),
             ])
-            ->filtersFormColumns(3)
+            ->filtersFormColumns(4)
             ->filtersLayout(Tables\Enums\FiltersLayout::AboveContentCollapsible)
             ->headerActions([
                 Tables\Actions\CreateAction::make(),

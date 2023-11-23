@@ -48,6 +48,10 @@ return [
         'today_entries' => 'زمان های ثبت شده امروز',
         'week_entries' => 'زمان های ثبت شده در هفته جاری',
         'month_entries' => 'زمان های ثبت شده در ماه جاری',
+        'is_not_calculated_times_on_sum' => 'زمان های محاسبه نشده',
+        'is_calculated_times_on_sum' => 'زمان های محاسبه شده',
+        'is_calculate_on_sum' => 'محاسبه زمان',
+        'is_calculate_on_sum_toggle' => 'این زمان در محاسبات آماری اعمال شود.',
     ],
     'commons' => [
         'labels' => [
