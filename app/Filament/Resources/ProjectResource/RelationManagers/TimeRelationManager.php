@@ -33,13 +33,13 @@ class TimeRelationManager extends RelationManager
         $taskFormComponent = ! is_null($this->getOwnerRecord()->jira_link)
             ? Forms\Components\Grid::make()
                 ->schema([
+                    Forms\Components\TextInput::make('task')
+                        ->label(__('app.fields.task'))
+                        ->maxLength(250),
+
                     Forms\Components\TextInput::make('jira_issue')
                         ->label(__('app.fields.jira_issue'))
                         ->extraInputAttributes(['dir' => 'ltr'])
-                        ->maxLength(250),
-
-                    Forms\Components\TextInput::make('task')
-                        ->label(__('app.fields.task'))
                         ->maxLength(250),
                 ])
             : Forms\Components\TextInput::make('task')
@@ -66,7 +66,7 @@ class TimeRelationManager extends RelationManager
                             ->label(__('app.fields.start'))
                             ->okLabel(__('app.commons.labels.ok'))
                             ->cancelLabel(__('app.commons.labels.cancel'))
-                            ->default(now()->format('H:i'))
+                            ->default(now()->startOfHour()->format('H:i'))
                             ->rule('date_format:H:i')
                             ->required()
                             ->lazy(),
