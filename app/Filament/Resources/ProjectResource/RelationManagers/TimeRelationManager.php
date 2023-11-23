@@ -180,7 +180,7 @@ class TimeRelationManager extends RelationManager
                         return $query
                             ->when(
                                 $data['isActive'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('date', today())
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', today()->toDateString())
                             );
                     }),
 
@@ -192,7 +192,10 @@ class TimeRelationManager extends RelationManager
                             ->when(
                                 $data['isActive'],
                                 fn (Builder $query, $date): Builder =>
-                                    $query->whereBetween('date', [verta()->startWeek()->toCarbon(), verta()->endWeek()->toCarbon()])
+                                    $query->whereBetween('date', [
+                                        verta()->startWeek()->toCarbon()->toDateString(),
+                                        verta()->endWeek()->toCarbon()->toDateString()
+                                    ])
                             );
                     }),
 
@@ -204,7 +207,10 @@ class TimeRelationManager extends RelationManager
                             ->when(
                                 $data['isActive'],
                                 fn (Builder $query, $date): Builder =>
-                                $query->whereBetween('date', [verta()->startMonth()->toCarbon(), verta()->endMonth()->toCarbon()])
+                                $query->whereBetween('date', [
+                                    verta()->startMonth()->toCarbon()->toDateString(),
+                                    verta()->endMonth()->toCarbon()->toDateString()
+                                ])
                             );
                     }),
             ])

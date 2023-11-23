@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Filament\Pages;
+use App\Utils\Html;
 use Filament\Widgets;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -80,6 +81,11 @@ class FilamentPanelServiceProvider extends PanelProvider
             Filament::getDefaultPanel()->userMenuItems([
                 'account' => MenuItem::make()->url(Pages\EditProfile::getUrl()),
             ]);
+
+            Filament::registerRenderHook(
+                'panels::user-menu.before',
+                fn () => Html::el('div')->setText('امروز '. verta()->format('l، Y/m/d')),
+            );
         });
     }
 }

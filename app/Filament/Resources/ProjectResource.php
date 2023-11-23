@@ -128,7 +128,10 @@ class ProjectResource extends Resource
                                 ->label(__('app.fields.today_time_work'))
                                 ->formatStateUsing(
                                     fn($record) => TimeHelper::timestampToHoursMinutes(
-                                        $record->times()->whereDate('date', today())->where('is_calculate_on_sum', true)->sum('total')
+                                        $record->times()
+                                            ->whereDate('date', today()->toDateString())
+                                            ->where('is_calculate_on_sum', true)
+                                            ->sum('total')
                                     )
                                 )
                                 ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
@@ -140,7 +143,10 @@ class ProjectResource extends Resource
                                 ->formatStateUsing(
                                     fn($record) => TimeHelper::timestampToHoursMinutes(
                                         $record->times()
-                                            ->whereBetween('date', [verta()->startWeek()->toCarbon(), verta()->endWeek()->toCarbon()])
+                                            ->whereBetween('date', [
+                                                verta()->startWeek()->toCarbon()->toDateString(),
+                                                verta()->endWeek()->toCarbon()->toDateString()
+                                            ])
                                             ->where('is_calculate_on_sum', true)
                                             ->sum('total')
                                     )
@@ -154,7 +160,10 @@ class ProjectResource extends Resource
                                 ->formatStateUsing(
                                     fn($record) => TimeHelper::timestampToHoursMinutes(
                                         $record->times()
-                                            ->whereBetween('date', [verta()->startMonth()->toCarbon(), verta()->endMonth()->toCarbon()])
+                                            ->whereBetween('date', [
+                                                verta()->startMonth()->toCarbon()->toDateString(),
+                                                verta()->endMonth()->toCarbon()->toDateString()
+                                            ])
                                             ->where('is_calculate_on_sum', true)
                                             ->sum('total')
                                     )
